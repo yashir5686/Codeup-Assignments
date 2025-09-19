@@ -6,46 +6,53 @@ public class MyString {
     // Expand encoded string like "a1b4c3" -> "abbbbccc"
     public static String expand(String s) {
         if (s == null || s.length() == 0) return "";
-        StringBuilder result = new StringBuilder();
-        int i = 0, n = s.length();
-        while (i < n) {
-            char ch = s.charAt(i);
-            if (!Character.isLetter(ch)) {
-                i++;
-                continue; // skip invalid
-            }
-            i++;
-            int count = 0;
-            boolean gotDigit = false;
-            while (i < n && Character.isDigit(s.charAt(i))) {
-                gotDigit = true;
-                count = count * 10 + (s.charAt(i) - '0');
-                i++;
-            }
-            if (!gotDigit) count = 1; // default
-            for (int k = 0; k < count; k++) result.append(ch);
-        }
-        return result.toString();
+		String res = "";
+		
+		String chr = "";
+		for(int i = 0; i < s.length(); i++){
+			int r = 0;
+			if(Character.isDigit(s.charAt(i))){
+				r = s.charAt(i) - '0';
+				while(r != 0){
+					res += chr;
+					r--;
+				}
+				chr = "";
+			} else {
+				if('a' <= s.charAt(i) && s.charAt(i) <= 'z'){
+					chr += s.charAt(i);
+				} else {
+					res = "Invalid String Please only Enter characters(a - z in lowercase) followed by digits";
+				}
+			}
+		}
+		
+        return res;
     }
 
     // ----------------- Task 2 -----------------
     // Run-length encoding: "aabcccdeee" -> "a2b1c3d1e3"
     public static String compressRuns(String s) {
         if (s == null || s.isEmpty()) return "";
-        StringBuilder sb = new StringBuilder();
+        String res = "";
         int n = s.length();
         int i = 0;
         while (i < n) {
             char c = s.charAt(i);
-            int count = 1;
+			int count = 1;
             i++;
+			if('a' <= c && c <= 'z'){
             while (i < n && s.charAt(i) == c) {
                 count++;
                 i++;
             }
-            sb.append(c).append(count);
+            res += c;
+			res += count;
+			} else {
+				res = "Invalid String Please only Enter characters(a - z in lowercase)";
+			}
         }
-        return sb.toString();
+        return res;
     }
 
     // ----------------- Task 3 -----------------
